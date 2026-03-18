@@ -44,7 +44,7 @@ def register(user_data: UserCreate, db: Session = Depends(get_db)):
 
     return new_user
 
-# ── LOGIN ─────────────────────────────────────────────
+# ── LOGIN ───
 @router.post('/login', response_model=TokenResponse)
 def login(credentials: UserLogin, db: Session = Depends(get_db)):
     user = db.query(User).filter(User.email == credentials.email).first()
@@ -64,7 +64,7 @@ def login(credentials: UserLogin, db: Session = Depends(get_db)):
     }
 
 
-# ── GET CURRENT USER (protected) ──────────────────────
+# ── GET CURRENT USER 
 
 @router.get("/me",  response_model=UserResponse)
 def get_me(current_user : User =  Depends(get_current_user)):
@@ -77,7 +77,7 @@ def get_me(current_user : User =  Depends(get_current_user)):
 
 
 
-# ── REFRESH TOKEN ──────────────────────────────────────
+# ── REFRESH TOKEN ────────
 @router.post('/refresh')
 def refresh_token(body: RefreshRequest, db: Session = Depends(get_db)):
     payload = decode_token(body.refresh_token)
@@ -93,7 +93,7 @@ def refresh_token(body: RefreshRequest, db: Session = Depends(get_db)):
     return {'access_token': new_token, 'token_type': 'bearer'}
  
  
-# ── LOGOUT ────────────────────────────────────────────
+# ── LOGOUT ────────────
 @router.post('/logout')
 def logout(
     credentials: HTTPAuthorizationCredentials = Depends(security),
